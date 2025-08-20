@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetVax - At-Home Pet Vaccination Service</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 15px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e74c3c;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #e74c3c;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="paws" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="3" fill="rgba(255,255,255,0.1)"/><circle cx="35" cy="15" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="35" cy="25" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="20" r="2" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23paws)"/></svg>');
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s both;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.7s both;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.9s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease 1.1s both;
+        }
+
+        .btn-primary {
+            background: #e74c3c;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 15px 30px;
+            border: 2px solid white;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background: #f8f9fa;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+
+        .pricing-highlight {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-highlight::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .pricing-highlight h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .price {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 20px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .services-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tab-button {
+            background: #ecf0f1;
+            color: #7f8c8d;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .vaccine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .vaccine-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #e74c3c;
+            transition: all 0.3s ease;
+        }
+
+        .vaccine-card:hover {
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+
+        .vaccine-card h3 {
+            color: #e74c3c;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .vaccine-card p {
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        /* Schedule Section */
+        .schedule {
+            padding: 100px 0;
+            background: #f8f9fa;
+        }
+
+        .schedule-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .schedule-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+
+        .schedule-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .schedule-table th {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 20px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .schedule-table td {
+            padding: 20px;
+            border-bottom: 1px solid #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .schedule-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .schedule-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+
+        .footer h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .footer p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .copyright {
+            border-top: 1px solid #34495e;
+            padding-top: 30px;
+            color: #bdc3c7;
+        }
+
+        .contact-form-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .form-container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            height: 800px;
+            overflow: hidden;
+        }
+
+        .form-container iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+            border-radius: 10px;
+        }
+
+        /* JavaScript Functions */
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            50% { transform: translate(-50%, -50%) rotate(180deg); }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .services-tabs, .schedule-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .vaccine-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .schedule-table {
+                font-size: 0.9rem;
+            }
+
+            .schedule-table th,
+            .schedule-table td {
+                padding: 15px 10px;
+            }
+
+            .form-container {
+                margin: 0 10px;
+                padding: 0;
+                height: 700px;
+            }
+
+            .form-container iframe {
+                height: 700px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+
+            .price {
+                font-size: 3rem;
+            }
+
+            .feature-card, .vaccine-card {
+                padding: 25px 20px;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .btn-primary, .btn-secondary {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+
+            .tab-button {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+
+            .schedule-table th,
+            .schedule-table td {
+                padding: 10px 5px;
+                font-size: 0.8rem;
+            }
+
+            .footer h2 {
+                font-size: 2rem;
+            }
+
+            .footer p {
+                font-size: 1rem;
+            }
+
+            .form-container {
+                margin: 0 5px;
+                height: 600px;
+            }
+
+            .form-container iframe {
+                height: 600px;
+            }
+
+            .contact-form-section h3 {
+                font-size: 1.5rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="#" class="logo">🐾 PetVax</a>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#schedule">Schedule</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <a href="tel:3476440551" class="cta-button">(347) 644-0551</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Your Pet's Health, Our Priority</h1>
+                <p class="hero-subtitle">Convenient At-Home Pet Vaccination Service</p>
+                <p class="hero-description">
+                    Say goodbye to stressful vet visits. Our licensed professionals bring top-quality vaccines directly to your doorstep, keeping your furry friends comfortable and healthy.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn-primary">Schedule Visit</a>
+                    <a href="#services" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose PetVax?</h2>
+            <p class="section-subtitle">
+                We make pet care simple, convenient, and stress-free for both you and your beloved pets.
+            </p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🏠</div>
+                    <h3>At-Home Service</h3>
+                    <p>We come to you, eliminating the stress of travel and waiting rooms for your pets.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">👩‍⚕️</div>
+                    <h3>Licensed Professionals</h3>
+                    <p>Our experienced veterinary professionals ensure safe, effective vaccination procedures.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌡️</div>
+                    <h3>Quality Vaccines</h3>
+                    <p>Top-quality vaccines and microchips from trusted brands, stored at optimal temperatures.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Transparent Pricing</h3>
+                    <p>Simple pricing: $50 per vaccine or microchip, including the visit fee.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Health Check Included</div>
+                    <p>Quick health examination to ensure your pet is ready for vaccination.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⏰</div>
+                    <h3>Flexible Scheduling</h3>
+                    <p>Convenient appointment times that work with your busy schedule.</p>
+                </div>
+            </div>
+
+            <div class="pricing-highlight">
+                <h2>Simple, Transparent Pricing</h2>
+                <div class="price">$50</div>
+                <p>Per vaccine or microchip, including the home visit</p>
+                <p>No hidden fees, no surprises - just straightforward pet care</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Our Vaccination Services</h2>
+            <p class="section-subtitle">
+                Comprehensive vaccine protection tailored to your pet's specific needs and lifestyle.
+            </p>
+
+            <div class="services-tabs">
+                <button class="tab-button active" onclick="showTab('dogs', this)">Dogs</button>
+                <button class="tab-button" onclick="showTab('cats', this)">Cats</button>
+                <button class="tab-button" onclick="showTab('why-vaccinate', this)">Why Vaccinate?</button>
+            </div>
+
+            <div id="dogs" class="tab-content active">
+                <h3 style="text-align: center; margin-bottom: 40px; color: #2c3e50; font-size: 1.8rem;">Dog Vaccination Services</h3>
+                
+                <h4 style="color: #e74c3c; font-size: 1.5rem; margin-bottom: 20px;">Core Vaccines (Essential for all dogs)</h4>
+                <div class="vaccine-grid">
+                    <div class="vaccine-card">
+                        <h3>Rabies</h3>
+                        <p>Legally required in New York. Protects against this fatal disease that can affect both pets and humans.</p>
+                    </div>
+                    
+                    <div class="vaccine-card">
+                        <h3>DHPPi Combination</h3>
+                        <p>Comprehensive protection against Distemper, Parvovirus, Parainfluenza, and Infectious Hepatitis.</p>
+                    </div>
+                    
+                    <div class="vaccine-card">
+                        <h3>Leptospirosis</h3>
+                        <p>Essential in New York where this bacterial infection is prevalent, commonly spread by urban wildlife like rats and mice.</p>
+                    </div>
+                </div>
+
+                <h4 style="color: #e74c3c; font-size: 1.5rem; margin: 40px 0 20px;">Non-Core Vaccines (Lifestyle-based recommendations)</h4>
+                <div class="vaccine-grid">
+                    <div class="vaccine-card">
+                        <h3>Bordetella (Kennel Cough)</h3>
+                        <p>Required for boarding and daycare. Recommended for dogs in contact with other dogs. Boost every 6 months for frequent dog park visitors.</p>
+                    </div>
+                    
+                    <div class="vaccine-card">
+                        <h3>Lyme Disease</h3>
+                        <p>Essential for dogs exposed to ticks during hiking, visits to parks, or time in natural areas with tall grass.</p>
+                    </div>
+                    
+                    <div class="vaccine-card">
+                        <h3>Canine Influenza</h3>
+                        <p>Recommended for dogs in boarding, daycare, or dog parks. Also advisable for dogs with heart or respiratory conditions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cats" class="tab-content">
+                <h3 style="text-align: center; margin-bottom: 40px; color: #2c3e50; font-size: 1.8rem;">Cat Vaccination Services</h3>
+                
+                <div class="vaccine-grid">
+                    <div class="vaccine-card">
+                        <h3>Rabies</h3>
+                        <p>Legally required in New York for all cats, including indoor-only cats. Essential protection against this fatal disease.</p>
+                    </div>
+                    
+                    <div class="vaccine-card">
+                        <h3>FVRCP Combination</h3>
+                        <p>Core protection against Feline Viral Rhinotracheitis, Calicivirus, and Panleukopenia (feline distemper).</p>
+                    </div>
+                    
+                    <div class="vaccine-card">
+                        <h3>Feline Leukemia Virus</h3>
+                        <p>Recommended for kittens regardless of lifestyle. Adult indoor cats typically don't need boosters, but outdoor cats should continue regular vaccination.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="why-vaccinate" class="tab-content">
+                <h3 style="text-align: center; margin-bottom: 40px; color: #2c3e50; font-size: 1.8rem;">The Importance of Pet Vaccination</h3>
+                
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <div class="vaccine-card">
+                        <h3>Disease Prevention</h3>
+                        <p>Vaccines expose your pet's immune system to harmless forms of disease agents, building immunity before exposure to the real threat.</p>
+                    </div>
+                    
+                    <div class="vaccine-card">
+                        <h3>Community Protection</h3>
+                        <p>Widespread vaccination helps protect all pets in the community by reducing disease transmission.</p>
+                    </div>
+                    
+                    <div class="vaccine-card">
+                        <h3>Cost-Effective Care</h3>
+                        <p>Preventing disease is much more affordable than treating serious illnesses that vaccines can prevent.</p>
+                    </div>
+                    
+                    <div class="vaccine-card">
+                        <h3>Legal Requirements</h3>
+                        <p>Many vaccines like rabies are legally required, and others may be necessary for boarding, daycare, or travel.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section id="schedule" class="schedule">
+        <div class="container">
+            <h2 class="section-title">Vaccination Schedules</h2>
+            <p class="section-subtitle">
+                Personalized vaccination timelines to keep your pets protected throughout their lives.
+            </p>
+
+            <div class="schedule-tabs">
+                <button class="tab-button active" onclick="showScheduleTab('puppy', this)">Puppy Schedule</button>
+                <button class="tab-button" onclick="showScheduleTab('kitten', this)">Kitten Schedule</button>
+                <button class="tab-button" onclick="showScheduleTab('adult-dog', this)">Adult Dogs</button>
+                <button class="tab-button" onclick="showScheduleTab('adult-cat', this)">Adult Cats</button>
+            </div>
+
+            <div id="puppy" class="tab-content active">
+                <div class="schedule-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Age</th>
+                                <th>Vaccines</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>8 weeks</strong></td>
+                                <td>Distemper (1 of 3), Bordetella (1 of 1), Lyme (1 of 2), Canine Influenza Virus (1 of 2)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>12 weeks</strong></td>
+                                <td>Distemper (2 of 3), Leptospirosis (1 of 2), Rabies (1 of 1), Lyme (2 of 2), Canine Influenza Virus (2 of 2)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>16 weeks</strong></td>
+                                <td>Distemper (3 of 3), Leptospirosis (2 of 2)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="kitten" class="tab-content">
+                <div class="schedule-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Age</th>
+                                <th>Vaccines</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>8 weeks</strong></td>
+                                <td>FVRCP (1 of 3)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>12 weeks</strong></td>
+                                <td>FVRCP (2 of 3), Leukemia (1 of 2), Rabies (1 of 1)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>16 weeks</strong></td>
+                                <td>FVRCP (3 of 3), Leukemia (2 of 2)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="adult-dog" class="tab-content">
+                <div class="schedule-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Vaccine</th>
+                                <th>Frequency</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Rabies</strong></td>
+                                <td>One year after initial puppy vaccine, then every three years</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Distemper</strong></td>
+                                <td>One year after initial puppy vaccine, then every three years</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Bordetella</strong></td>
+                                <td>Semi-annual to annual (every 6-12 months)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Leptospirosis</strong></td>
+                                <td>Annually</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Canine Influenza</strong></td>
+                                <td>Annually</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Lyme Disease</strong></td>
+                                <td>Annually</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="adult-cat" class="tab-content">
+                <div class="schedule-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Vaccine</th>
+                                <th>Frequency</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Rabies</strong></td>
+                                <td>One year after initial kitten vaccine, then every three years</td>
+                            </tr>
+                            <tr>
+                                <td><strong>FVRCP</strong></td>
+                                <td>One year after initial kitten vaccine, then every three years</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Feline Leukemia Virus</strong></td>
+                                <td>One year after initial kitten series, then every other year for at-risk (outdoor) cats only</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section id="contact" class="section">
+      <div class="container">
+        <h2 class="section-title">Book a Vaccination Visit</h2>
+        <p class="section-subtitle">Please fill out the form below to schedule your at-home pet vaccination.</p>
+        <div style="width: 100%; height: 100vh; overflow: hidden;">
+          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe75nI1PPp8Z81k16figqBGx3zZMIzM1uUg1SF8db5GwobS3w/viewform?embedded=true" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <section id="contact" class="footer">
+        <div class="container">
+            <h2>Ready to Get Started?</h2>
+            <p>
+                Keep your pets healthy and happy with our convenient at-home vaccination service. 
+                Contact us today to schedule your appointment.
+            </p>
+            <div class="footer-buttons">
+                <a href="tel:3476440551" class="btn-primary">(347) 644-0551</a>
+                <a href="mailto:petvaxnyc@gmail.com" class="btn-secondary">Email Us</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 PetVax. All rights reserved. Licensed veterinary professionals serving your community.</p>
+            </div>
+            
+            <!-- Contact Form Section -->
+            <div class="contact-form-section">
+                <h3 style="color: white; font-size: 2rem; margin: 40px 0 20px;">Schedule Your Appointment</h3>
+                <p style="color: #bdc3c7; margin-bottom: 30px;">Fill out our quick form to book your pet's vaccination appointment</p>
+                <div class="form-container">
+                    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe75nI1PPp8Z81k16figqBGx3zZMIzM1uUg1SF8db5GwobS3w/viewform?embedded=true" 
+                            frameborder="0" 
+                            marginheight="0" 
+                            marginwidth="0"
+                            style="width: 100%; height: 100%; min-height: 800px; border: none; border-radius: 10px;">
+                        Loading…
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function showTab(tabName, buttonElement) {
+            // Hide all service tab contents
+            const serviceTabContents = document.querySelectorAll('#services .tab-content');
+            serviceTabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all service tab buttons
+            const serviceTabButtons = document.querySelectorAll('#services .tab-button');
+            serviceTabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show the selected service tab content
+            const targetTab = document.getElementById(tabName);
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+
+            // Add active class to the clicked service tab button
+            if (buttonElement) {
+                buttonElement.classList.add('active');
+            }
+        }
+
+        function showScheduleTab(tabName, buttonElement) {
+            // Hide all schedule tab contents
+            const scheduleTabContents = document.querySelectorAll('#schedule .tab-content');
+            scheduleTabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all schedule tab buttons
+            const scheduleTabButtons = document.querySelectorAll('#schedule .tab-button');
+            scheduleTabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show the selected schedule tab content
+            const targetTab = document.getElementById(tabName);
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+
+            // Add active class to the clicked schedule tab button
+            if (buttonElement) {
+                buttonElement.classList.add('active');
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar background change on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+    </script>
